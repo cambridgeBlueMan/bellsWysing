@@ -186,7 +186,7 @@ SynthDef(\undulatingSin2, {|fund=200, t_trig = 1|
 		})
 	)*0.5; //overall volume
 	Out.ar(0, sig)
-}).play;
+}).add;
 
 
 SynthDef(\phone,

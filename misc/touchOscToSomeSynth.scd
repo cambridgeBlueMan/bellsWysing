@@ -2,7 +2,14 @@
 // ************************************************************************************
 //                             1. CALLIBRATING THE DEVICE
 // ************************************************************************************
+/*
+below is the code I used to set up the wildfire android phone.
+you need to do the same thing to define ~iPhoneXSpec and iPhoneYSpec
+environment variables.
 
+once you have done that then yo should be able to substitue in various vals for the file
+touchOscToSomeSynth.scd
+*/
 (
 /*
 use this code block to determine the range of values being output from your iPhone
@@ -27,16 +34,16 @@ wildfireFunc= OSCFunc.new(
 		*/
 
 
-		//msg.postln;
+		msg.postln;
 		//"x axis: ".post; msg[1].postln;
 		//"y axis: ".post; msg[2].postln;
-		"z axis: ".post; msg[3].postln;
+		//"z axis: ".post; msg[3].postln;
 
 	}, // end of function
 
 	// *******************************
 	// now the path of the osc message
-	"/accxyz"
+	"/2/push1"
 );
 )
 
