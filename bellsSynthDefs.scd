@@ -147,7 +147,7 @@ SynthDef(\undulatingSin, {|fund=200, amp = 0.6|
 		) // end fill
 	)*amp; //overall volume
 	Out.ar(0, sig)
-}).play;
+}).add;
 
 
 // end synthdef
@@ -188,7 +188,43 @@ SynthDef(\undulatingSin2, {|fund=200, t_trig = 1|
 	Out.ar(0, sig)
 }).add;
 
+SynthDef(\undulatingSin3, {|fund=200, t_trig = 1|
+	var trigger, sig;
+	//trigger = Dust.kr(3/7);
+	//fund = Rand(100, 400); // within a range
 
+	sig = Mix.ar(
+		Array.fill(5,
+
+			// *************************************
+			// a function to fill the array elements
+			{arg counter;
+				var partial;
+				partial = counter + 1;·
+				Pan2.ar(
+					// so something like fund, fund*2, fund*3 etc
+					SinOsc.ar(fund*partial) *
+					//
+					EnvGen.kr(Env.adsr(0, 0, 1.0, 5.0),
+						t_trig, 1/partial,
+						doneAction: 2
+					)
+					* max(
+						0,
+						// Rand will generate a single value between 5 and 12
+						// so LFNoise1 will generate a value between 0 and 1
+						// somewhere between 5 and 12 times per second
+						LFNoise1.kr(Rand(5.0, 12.0)) // end lfnoise
+					),
+					// ******************************
+					// pan position for the pan2 ugen
+					(Rand(0.0, 2.0) - 1) // pan position (not right)
+				) // end pan
+
+		})
+	)*0.5; //overall volume
+	Out.ar(0, sig)
+}).add;
 SynthDef(\phone,
 	{ //Pulse (phone ring)
 		var lfo;

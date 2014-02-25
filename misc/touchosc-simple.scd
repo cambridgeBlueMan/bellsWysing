@@ -6,13 +6,13 @@
 //* change that if you want.						             *//
 //*					Wilm Thoben 2008				             *//
 //********************************************************************/
-
+NetAddr.langPort
 
 /*
 when you are at home you will need to get the ip address of your mac.
 so, open a terminal and enterr the command ifcofig
 this will give  the required address
-
+// OSCFunc.trace
 
 */
 //port outgoing: 57120
@@ -43,7 +43,7 @@ var mess2=Array.newClear(64);
 GUI.cocoa;
 
 //insert your IPhone/Ipod Touch IP + Send Port here
-adrs = NetAddr("192.168.0.10", 9000);
+adrs = NetAddr("192.168.0.6", 9000);
 
 win = GUI.window.new("TouchOSC", Rect(10, 400, 970, 340));
 win.view.background = Color(0.15,0.15,0.1);

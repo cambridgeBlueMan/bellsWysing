@@ -31,6 +31,7 @@ starter section can be any valid section, typically 0 for a performance, but som
 */
 var starterSection = 0; //
 
+w.run;
 // ***************************
 // display the current section
 displaySection = StaticText.new(win, Rect(10,10, 250,50));
