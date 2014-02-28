@@ -1,4 +1,5 @@
 (
+var thisMovement = 4;
 var w0 = WiiMote.all[0];
 var theDir= (thisProcess.nowExecutingPath.dirname ++ "/audio/time/*").pathMatch;
 
@@ -68,7 +69,7 @@ s.waitForBoot({
 		);
 	});
 }); // end wait for boot
-~dics[4][\bB]["texture"] = {|val|
+~movements[thisMovement][\bB]["texture"] = {|val|
 	if (val == 1, {
 		var sustain = 6, transition = 4, overlap = 5;
 		var period = (transition*2+sustain)/overlap;
@@ -83,7 +84,7 @@ s.waitForBoot({
 	});
 };
 
-~dics[4][\bA]["bell"] = {|val|
+~movements[thisMovement][\bA]["bell"] = {|val|
 	if (val == 1, {
 		var sustain = 6, transition = 4, overlap = 5;
 		var period = (transition*2+sustain)/overlap;
@@ -95,17 +96,17 @@ s.waitForBoot({
 	});
 };
 
-~dics[4][\nbZ]["bell"] = {|val|
+~movements[thisMovement][\nbZ]["clockChime"] = {|val|
 	if (val == 1, {
 		chimes[rrand(0, chimes.size-1)].play;
 	});
 };
-~dics[4][\bOne]["getTime"] = {|val|
+~movements[thisMovement][\bOne]["getTime"] = {|val|
 	if (val == 1, {
 		Synth(\buffPlayer, [\bufnum, ~timeBuffers[rrand(1,15)], \bufSize, ~buffers[1].numFrames ])
 	});
 }; // end function
-~dics[4][\bTwo]["clocksStopped"] = {|val|
+~movements[thisMovement][\bTwo]["clocksStopped"] = {|val|
 	if (val == 1, {
 		Synth(\buffPlayer, [\bufnum, ~timeBuffers[0], \bufSize, ~buffers[1].numFrames ])
 	});

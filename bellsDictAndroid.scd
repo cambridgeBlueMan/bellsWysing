@@ -1,8 +1,10 @@
+
 // ======================================================================
 (
+var thisMovement = 3;
 var w0 = WiiMote.all[0];
 var theDir= (thisProcess.nowExecutingPath.dirname ++ "/audio/phone/hello*").pathMatch;
-var stopPhone, playAnswerPhone, hello, sourMusicBox;
+var stopPhone, playAnswerPhone, hello, starterKlank;
 var musicBoxCounter = 1;
 ~buffers = List.new;
 ~stopPhone = false;
@@ -42,9 +44,9 @@ s.waitForBoot({
 }); // end wait for boot
 
 // *******
-// ~dics[3]
+// ~movements[thisMovement]
 
-~dics[3][\bB]["startPhone"] = {|val|
+~movements[thisMovement][\bB]["startPhone"] = {|val|
 	if (val == 1, {
 		//"hhhhh".postln;
 		var phoneSynth, runit= true;
@@ -65,27 +67,7 @@ s.waitForBoot({
 	}); // end if
 }; // end set action
 
-~dics[3][\nbZ]["fadeMusicBox"] = {|val|
-	if (val == 1, {
-		//"hhhhh".postln;
-		var phoneSynth, runit= true;
-		// ~getAndroid = true;
-		//phoneSynth = Synth.newPaused(\phone);
-		TempoClock.sched(0, {
-			x = 1/musicBoxCounter;
-			~sourMusicBox.set(\myMul, 0.1*x);
-			musicBoxCounter = musicBoxCounter + 1;
-			if (musicBoxCounter == 10,
-				{~sourMusicBox.run(false);
-					~sourMusicBox.free;
-					nil;
-				},
-				{
-					0.5
-			}); // end if
-		});
-	}); // end if
-}; // end set action
+
 
 // **************************************************************************************
 //                          STOP THE PHONE RINGING
@@ -102,7 +84,7 @@ stopPhone = OSCFunc({ |msg, time, addr, recvPort|
 );
 
 // WII function
-~dics[3][\bMinus]["stopPhone"] = {|val|
+~movements[thisMovement][\bMinus]["stopPhone"] = {|val|
 	if (val == 1, {
 		~stopPhone = true
 	}); // end if
@@ -125,7 +107,7 @@ hello = OSCFunc({ |msg, time, addr, recvPort|
 );
 
 // WII function
-~dics[3][\bPlus]["hello"] = {|val|
+~movements[thisMovement][\bPlus]["hello"] = {|val|
 	if (val == 1, {
 		Synth(\buffPlayer, [\bufnum, ~buffers[rrand(1,~buffers.size)], \bufSize, ~buffers[1].numFrames ])
 	}); // end if
@@ -148,7 +130,7 @@ playAnswerPhone = OSCFunc({ |msg, time, addr, recvPort|
 );
 
 // WII function
-~dics[3][\bHome]["playAnswerPhone"] = {|val|
+~movements[thisMovement][\bHome]["playAnswerPhone"] = {|val|
 	if (val == 1, {
 		Synth(\buffPlayer, [\bufnum, ~answerPhone, \bufSize, ~answerPhone.numFrames ])
 	}); // end if
@@ -157,10 +139,10 @@ playAnswerPhone = OSCFunc({ |msg, time, addr, recvPort|
 
 
 // **************************************************************************************
-//                          PLAY THE SOUR MUSIC BOX
+//                          PLAY THE STARTER KLANK
 // **************************************************************************************
 
-sourMusicBox = OSCFunc({ |msg, time, addr, recvPort|
+starterKlank = OSCFunc({ |msg, time, addr, recvPort|
 	[msg, time, addr, recvPort].postln;
 	if (msg[1] == 1, {
 		var sustain = 10, transition = 4, overlap = 5;
@@ -179,9 +161,18 @@ sourMusicBox = OSCFunc({ |msg, time, addr, recvPort|
 );
 
 // WII function
-~dics[3][\nbC]["hello"] = {|val|
+~movements[thisMovement][\nbC]["starterKlank"] = {|val|
 	if (val == 1, {
-		~sourMusicBox = Synth(\sourMusicBox);
+		var sustain = 10, transition = 4, overlap = 5;
+		var period = (transition*2+sustain)/overlap;
+		Synth(\helpKlankOverlapTexture2, [
+			\atk, transition,
+			\sus, sustain,
+			\rel, transition,
+			\pan, 1.0.rand2,
+			\freqs, {6000.0.linrand+80}.dup(12).postln,
+			\rings, {0.1.rrand(3)}.dup(12).postln
+		]);
 	}); // end if
 }; // end set action
 )

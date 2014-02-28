@@ -1,5 +1,5 @@
 (
-
+var thisMovement = 1;
 //var actions = Dictionary.new;
 var w0 = WiiMote.all[0];
 var synths = List.new(0);
@@ -23,7 +23,7 @@ var eigths = 2;
 // ==============================================================================
 //                               ADD A SYNTH
 // ==============================================================================
-~dics[1][\bB]["addSynth"] =  {|val|
+~movements[thisMovement][\bB]["addSynth"] =  {|val|
 	if (val == 1, {
 		var synth;
 		var freq = ControlSpec.new(100, 400, \lin, 1).map(
@@ -58,7 +58,7 @@ var eigths = 2;
 		}); // end if
 	}; // end set action
 
-~dics[1][\bA]["addHarmonicSynth"] =  {|val|
+~movements[thisMovement][\bA]["addHarmonicSynth"] =  {|val|
 	if (val == 1, {
 		var synth;
 		var freq =[200,300,400].choose;
@@ -93,7 +93,7 @@ var eigths = 2;
 	}; // end set action
 
 //
-// ~dics[1][\bA]["addHarmonicSynth"] =  {|val|
+// ~movements[thisMovement][\bA]["addHarmonicSynth"] =  {|val|
 // 	if (val == 1, {
 // 		//"hhhhh".postln;
 // 		//w0.remote_motion[1].postln;
@@ -115,13 +115,13 @@ var eigths = 2;
 // ========================================================================
 //                                    TURN BELLS ON AND OFF
 // ========================================================================
-~dics[1][\bPlus]["soundBells"] =  {|val|
+~movements[thisMovement][\bPlus]["soundBells"] =  {|val|
 	if (val == 1, {
 		soundBells = true;
 	}); // end if
 }; // end function
 
-~dics[1][\bMinus]["soundBellsOff"] =  {|val|
+~movements[thisMovement][\bMinus]["soundBellsOff"] =  {|val|
 	if (val == 1, {
 		soundBells = false;
 	}); // end if
@@ -131,7 +131,7 @@ var eigths = 2;
 
 
 
-~dics[1][\nbZ]["clearFirstSynth"] =  {|val|
+~movements[thisMovement][\nbZ]["clearFirstSynth"] =  {|val|
 	if (val == 1 && (sineClocks.size > 0), {
 		sineClocks[0].stop;
 		sineClocks.removeAt(0);
@@ -139,7 +139,7 @@ var eigths = 2;
 		bellClocks.removeAt(0);
 	}); // end if
 	}; // end set action
-~dics[1][\nbC]["clearLastSynth"] = {|val|
+~movements[thisMovement][\nbC]["clearLastSynth"] = {|val|
 	if (val== 1 && (sineClocks.size > 0), {
 		sineClocks[(sineClocks.size - 1)].stop;
 		sineClocks.removeAt((sineClocks.size - 1));

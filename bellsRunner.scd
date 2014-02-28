@@ -50,10 +50,10 @@ CmdPeriod.add(
 	{win.close});
 
 // *************************************************************************
-// ~dics is an array of wiimote dictionaries which can be swopped in and out
-/* ~dics should be renamed as movements, and should also allow us to give movements names */
+// ~movements is an array of wiimote dictionaries which can be swopped in and out
+/* ~movements should be renamed as movements, and should also allow us to give movements names */
 
-~dics = Array.newClear(6);
+~movements = Array.newClear(6);
 
 //w.run;
 // ******************************************************************************
@@ -72,51 +72,51 @@ the last dictionary or the first dictionary
 
 the screen is updated to reflect the currnet section
 */
-~dics.collect({|item, i|
-	~dics[i]= WiiMote.initDict;
-	//~dics[i].postn("this is ~dics[i]");
+~movements.collect({|item, i|
+	~movements[i]= WiiMote.initDict;
+	//~movements[i].postn("this is ~movements[i]");
 	//"hello".postln;
-	~dics[i][\bRight]["gonext"] = {|val|
+	~movements[i][\bRight]["gonext"] = {|val|
 		if (val == 1, {
 			"next".postln;
 			currentDic = currentDic + 1;
-			if (currentDic == ~dics.size, {currentDic = 0});
+			if (currentDic == ~movements.size, {currentDic = 0});
 			// ******·******
 			// set new dict
-			~w0.setDict(~dics[currentDic]);
+			~w0.setDict(~movements[currentDic]);
 			{displaySection.string = "Current Section:" ++ currentDic.asString;}.defer
 			}
 		);
 	};
-	~dics[i][\bDown]["golast"] = {|val|
+	~movements[i][\bDown]["golast"] = {|val|
 		if (val == 1, {
 			"last".postln;
 			// ************
 			// set new dict
-			~w0.setDict(~dics[(~dics.size-1)]);
+			~w0.setDict(~movements[(~movements.size-1)]);
 			{displaySection.string = "Current Section:" ++ currentDic.asString;}.defer
 			}
 		);
 	};
-	~dics[i][\bLeft]["goprevious"] = {|val|
+	~movements[i][\bLeft]["goprevious"] = {|val|
 		//"in e previous".postln;
 		if (val == 1,
 			{"previous".postln;
 				currentDic = currentDic - 1;
-				if (currentDic == -1, {currentDic = (~dics.size -1)});
+				if (currentDic == -1, {currentDic = (~movements.size -1)});
 				// ************
 				// set new dict
-				~w0.setDict(~dics[currentDic]);
+				~w0.setDict(~movements[currentDic]);
 				{displaySection.string = "Current Section:" ++ currentDic.asString;}.defer
 			}
 		);
 	};
-	~dics[i][\bUp]["gofirst"] = {|val|
+	~movements[i][\bUp]["gofirst"] = {|val|
 		if (val == 1,
 			{"first".postln;
 				// ************
 				// set new dict
-				~w0.setDict(~dics[0]);
+				~w0.setDict(~movements[0]);
 				{displaySection.string = "Current Section:" ++ currentDic.asString;}.defer
 			}
 		);
@@ -139,7 +139,7 @@ theDir.do({|item, i|
 // *************************************************************************************
 //                                  set first dictionary
 // *************************************************************************************
-~w0.setDict(~dics[starterSection]);
+~w0.setDict(~movements[starterSection]);
 
 // *************************************************************************************
 //                                end of processing

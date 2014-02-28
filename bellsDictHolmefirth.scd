@@ -1,5 +1,6 @@
 
 (
+var thisMovement = 0;
 var hello = "hello";
 
 // the following are set by accs. One on each hand, providing alternative notes to a scale
@@ -37,11 +38,11 @@ notes = notes.midi.midicps;
 // ************
 // note setters
 //hello.postln;
-// ~dics[0][\ay]["leftHandNotes"] = {|val|
+// ~movements[thisMovement][\ay]["leftHandNotes"] = {|val|
 // 	wiimoteNote = ControlSpec.new(8, 0, 'lin', 2).map(  ~wiiSpecs[\ay].unmap(val));
 // };
 //hello.postln;
-// ~dics[0][\nay]["rightHandNotes"] = {|val|
+// ~movements[thisMovement][\nay]["rightHandNotes"] = {|val|
 // 	//val;
 // 	//val.postln;
 // 	//~wiiSpecs[\nay].unmap(val).postln;
@@ -49,7 +50,7 @@ notes = notes.midi.midicps;
 // };
 //hello.postln;
 w0 = WiiMote.all[0];
-~dics[0][\bB]["playLeftHandNote"] = {|val|
+~movements[thisMovement][\bB]["playLeftHandNote"] = {|val|
 	var ex, wy, zed, pee;
 	if (val ==1,
 		{
@@ -78,7 +79,7 @@ w0 = WiiMote.all[0];
 		{x.release});
 }; // end setAction
 //hello.postln;
-~dics[0][\nbZ]["playRightHandNote"] = {|val|
+~movements[thisMovement][\nbZ]["playRightHandNote"] = {|val|
 	var ex, wy, zed, pee;
 	if (val ==1,
 		{
@@ -86,10 +87,12 @@ w0 = WiiMote.all[0];
 			wy = w0.nunchuk_motion[1].postn("y");
 			zed = w0.nunchuk_motion[2].postn("z");
 			pee= atan (wy/sqrt((ex.squared) + (zed.squared))).postn("p");
+			/*
 			wiimoteNote = ControlSpec.new(8, 0, 'lin', 2).map
 			(  ~wiiSpecs[\p].unmap(pee)).postn("the y note");
+			*/
 			nunchukNote = (ControlSpec.new(4,1, 'lin', 1).map
-				(  ~wiiSpecs[\np].unmap(pee))*2 - 1);
+				(  ~wiiSpecs[\np].unmap(wy))*2 - 1);
 			y = Synth.new(\simpleBell, [\freq, notes[nunchukNote]]);
 			//y.nodeID.postln;
 		},
@@ -100,7 +103,7 @@ w0 = WiiMote.all[0];
 // recorder functions
 // ==================================================================================
 
-~dics[0][\bOne]["playNoteOnClock"] = {|val|
+~movements[thisMovement][\bOne]["playNoteOnClock"] = {|val|
 	if (val ==1,
 		{
 			//z = Synth.new(\risset3, settings);
@@ -116,7 +119,7 @@ w0 = WiiMote.all[0];
 //                        GET TEMPO
 // ========================================================================
 
-~dics[0][\bA]["getTempo"] = {|val|
+~movements[thisMovement][\bA]["getTempo"] = {|val|
 	if (val == 1, {
 		if (recordLatch == false,
 			{recordLatch = true;

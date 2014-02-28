@@ -1,5 +1,6 @@
 
 (
+var thisMovement = 5;
 var thePattern;
 var hello = "hello";
 
@@ -38,18 +39,18 @@ notes = notes.midi;
 // ************
 // note setters
 //hello.postln;
-~dics[5][\ay]["leftHandNotes"] = {|val|
+~movements[thisMovement][\ay]["leftHandNotes"] = {|val|
 	wiimoteNote = ControlSpec.new(8, 0, 'lin', 2).map(  ~wiiSpecs[\ay].unmap(val));
 };
 //hello.postln;
-~dics[5][\nay]["rightHandNotes"] = {|val|
+~movements[thisMovement][\nay]["rightHandNotes"] = {|val|
 	//val;
 	//val.postln;
 	//~wiiSpecs[\nay].unmap(val).postln;
 	nunchukNote = (ControlSpec.new(4,1, 'lin', 1).map(  ~wiiSpecs[\nay].unmap(val))*2 - 1);
 };
 //hello.postln;
-~dics[5][\bB]["playLeftHandNote"] = {|val|
+~movements[thisMovement][\bB]["playLeftHandNote"] = {|val|
 		if (val ==1,
 			{
 			hello.postln;
@@ -69,7 +70,7 @@ notes = notes.midi;
 			{x.release});
 }; // end setAction
 //hello.postln;
-~dics[5][\nbZ]["playRightHandNote"] = {|val|
+~movements[thisMovement][\nbZ]["playRightHandNote"] = {|val|
 		if (val ==1,
 			{
 			hello.postln;
@@ -92,7 +93,7 @@ notes = notes.midi;
 
 // **************************
 // start the ppattern playing
-	~dics[5][\bA]["startpattern"] = {|val|
+	~movements[thisMovement][\bA]["startpattern"] = {|val|
 		if (val == 1, {
 			thePattern.play(~clock).trace();
 			}
