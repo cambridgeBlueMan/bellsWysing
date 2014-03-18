@@ -25,7 +25,7 @@ var eigths = 2;
 //                               ADD A SYNTH
 // ==============================================================================
 ~getCurrentY = OSCFunc.new({|msg|
-	~currentY = ~wildfireYSpec.unmap(msg[2])
+	~currentY = msg[2]
 	},
 	"/accxyz"
 ); // end OSCFunc

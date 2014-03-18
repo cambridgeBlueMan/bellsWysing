@@ -4,6 +4,12 @@ NetAddr.localAddr
 // ****************************************************************************
 //                               asynchronous stuff
 // ****************************************************************************
+
+// *******************
+// load  the synthdefs
+(thisProcess.nowExecutingPath.dirname  ++ "/bellsSynthDefs.scd").load
+
+// **************
 // make a new Wii
 // remember that this is asynchronous and that you have to wait until new has complete
 // before you can invoke run

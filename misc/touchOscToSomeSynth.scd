@@ -2,6 +2,9 @@
 // ************************************************************************************
 //                             1. CALLIBRATING THE DEVICE
 // ************************************************************************************
+// a useful command to know
+NetAddr.langPort
+
 /*
 below is the code I used to set up the wildfire android phone.
 you need to do the same thing to define ~iPhoneXSpec and iPhoneYSpec
@@ -15,11 +18,11 @@ touchOscToSomeSynth.scd
 use this code block to determine the range of values being output from your iPhone
 // changing as necessary i.e. iPhoneFunc for wildfireFunc etc
 */
-var wildfireFunc;
+var iPhoneFunc;
 // watch case in OSCFunc :)
 
 // this first function will get the raw values output from your device
-wildfireFunc= OSCFunc.new(
+iPhoneFunc= OSCFunc.new(
 
 	// ****************************************
 	// a function to respond to the osc message
@@ -34,8 +37,8 @@ wildfireFunc= OSCFunc.new(
 		*/
 
 
-		msg.postln;
-		//"x axis: ".post; msg[1].postln;
+		//msg.postln;
+		"x axis: ".post; msg[1].postln;
 		//"y axis: ".post; msg[2].postln;
 		//"z axis: ".post; msg[3].postln;
 
@@ -43,7 +46,7 @@ wildfireFunc= OSCFunc.new(
 
 	// *******************************
 	// now the path of the osc message
-	"/2/push1"
+	"/accxyz"
 );
 )
 
