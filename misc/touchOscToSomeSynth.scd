@@ -58,8 +58,8 @@ iPhoneFunc= OSCFunc.new(
 
 // so I now map these using ControlSpec
 
-~wildfireXSpec = ControlSpec(9, -9, 'lin', 0.0001);
-~wildfireYSpec = ControlSpec(10, -10, 'lin', 0.0001);
+~wildfireXSpec = ControlSpec(-1.0, 1.0, 'lin', 0.0001);
+~wildfireYSpec = ControlSpec(-1.0, 1.0, 'lin', 0.0001);
 
 // and I can now create OSCFuncs along the lines below and I will get output between 0 and 1
 

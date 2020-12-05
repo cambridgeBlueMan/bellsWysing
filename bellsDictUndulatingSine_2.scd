@@ -1,4 +1,4 @@
-(
+ (
 var thisMovement = 1;
 //var actions = Dictionary.new;
 var w0 = WiiMote.all[0];
@@ -49,6 +49,9 @@ var eigths = 2;
 					var newFreq = [freq*2, freq*3, freq*4].choose;
 					if (soundBells == true, {
 						Synth(\simpleBell, [\freq, newFreq]);
+
+						// do we add another scheduler here to run the triplet bell
+						// or what?
 					});
 					// delta
 					rrand(3,7);
