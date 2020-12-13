@@ -46,12 +46,13 @@ var makeHarmonicSynths;
 //var synthsGroup = Group(mixerGroup, \addBefore);
 var buses = List.new;
 var myMixer;
+// I BELIEVE THAT BUSES SHOULD INCREMENT IN 4'S
 7.do ({|ix|
-	buses.add(20+(ix*2));
+	buses.add(20+(ix*4));
 });
 buses.postln;
 
-myMixer = Synth(\mixer, [\amp, 0.7], addAction:\addToTail);
+myMixer = Synth(\mixer28, [\amp, 0.7], addAction:\addToTail);
 
 // ********************************************************************
 //                            GUI
@@ -125,7 +126,7 @@ makeAharmonicSynths =  {|freq|
 		[
 			undulateClock.sched(0, {
 				//s.queryAllNodes;
-				Synth.new(\undulatingSin3, [\freq, freq],s, addAction:\addToHead);
+				Synth.new(\undulatingSin3, [\freq, freq], s, addAction:\addToHead);
 				// delta
 				//s.queryAllNodes;
 				rrand(3, 7);
@@ -141,10 +142,10 @@ makeAharmonicSynths =  {|freq|
 		// bellClocks are now two element arrays, as above
 		[
 		bellClock.sched(0, {
-			var newFreq = [freq, freq*3/2, freq*2].choose.postln;
+			var newFreq = [freq, freq*3/2, freq*2].choose;
 			if (soundBells == true,
 				{
-						"in soundbells".postln;
+						//"in soundbells".postln;
 					// using Pbind
 					Pbind(
 						\instrument, \simpleBell,
@@ -158,7 +159,8 @@ makeAharmonicSynths =  {|freq|
 			rrand(3,7);
 		}); // end sched
 		, // end of array element
-		bus
+			// I BELIEVE THE NET LINE SHOULD BE BUS + 2
+			(bus + 2)
 	] // end of array
 	); // end add to list
 }; // end set action
@@ -205,7 +207,7 @@ makeHarmonicSynths =  {
 			rrand(3,7);
 		}); // end scheduler
 		, // array element separator
-		bus
+			(bus + 2)
 		] // end of array
 	);
 }; // end set action
@@ -231,6 +233,7 @@ makeHarmonicSynths =  {
 	if (undulateClocks.size > 0, {
 		undulateClocks[0][0].stop;
 		buses.add(undulateClocks[0][1]);
+		buses.postln;
 		undulateClocks.removeAt(0);
 		bellClocks[0][0].stop;
 		bellClocks.removeAt(0);
@@ -241,7 +244,8 @@ makeHarmonicSynths =  {
 	//val.postln;
 	if (undulateClocks.size > 0, {
 		undulateClocks[(undulateClocks.size - 1)][0].stop;
-		buses.add(undulateClocks[0][1]);
+		buses.add(undulateClocks[undulateClocks.size - 1][1]);
+		buses.postln;
 		undulateClocks.removeAt((undulateClocks.size - 1));
 		bellClocks[(bellClocks.size - 1)][0].stop;
 		bellClocks.removeAt((bellClocks.size - 1));
@@ -256,5 +260,10 @@ OSCFunc.new({|msg|
 }
 ,
 "/pithree/xaccel/"
-)
+);
+
+Stethoscope(Server.default, 20, 20);
+// y = Bus('audio', 20, 20);
+// y.plot;
+
 )//end block

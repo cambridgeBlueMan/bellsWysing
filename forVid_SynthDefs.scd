@@ -1,30 +1,24 @@
 (
  // master mixer
-SynthDef(\mixer, {|amp = 0.15, out = 0, in = 20, gate=1|
-	// 3/11/10 added gate arg and eg line
+SynthDef(\mixer28, {|amp = 0.15, out = 0, in = 20, gate=1|
 	var eg = EnvGen.kr(Env.asr(1,1,1), gate, doneAction:0);
 	Out.ar(out, [
-		Mix.ar([
-			In.ar(in),
-			In.ar(in+2),
-			In.ar(in+4),
-			In.ar(in+6),
-			In.ar(in+8),
-			In.ar(in+10),
-			In.ar(in+12),
-			In.ar(in+14),
-			In.ar(in+16)
-		]),
-		Mix.ar ([
-			In.ar(in + 1),
-			In.ar(in + 3),
-			In.ar(in + 5),
-			In.ar(in + 7),
-			In.ar(in+9),
-			In.ar(in+11),
-			In.ar(in+13),
-			In.ar(in + 15)
-		])
+		Mix.ar(
+			Array.fill(28,
+				{|ix|
+						In.ar(in +(2*ix))
+						}
+			)
+		),
+		Mix.ar (
+				Array.fill(28,
+				{|ix|
+
+						In.ar(in + 1 +(2*ix))
+				}
+
+			)
+		)
 	]
 	// 3/11/10 added eg multiplier
 	*amp*eg)
