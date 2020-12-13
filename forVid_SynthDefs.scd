@@ -1,50 +1,50 @@
-// ******************************************************************************************
-//
-//
-//
-//
-// ******************************************************************************************
-
 (
-SynthDef(\simpleBell, {|t_trig = 1, freq = 440, amp = 0.2, pan = 0|
+ // master mixer
+SynthDef(\mixer, {|amp = 0.15, out = 0, in = 20, gate=1|
+	// 3/11/10 added gate arg and eg line
+	var eg = EnvGen.kr(Env.asr(1,1,1), gate, doneAction:0);
+	Out.ar(out, [
+		Mix.ar([
+			In.ar(in),
+			In.ar(in+2),
+			In.ar(in+4),
+			In.ar(in+6),
+			In.ar(in+8),
+			In.ar(in+10),
+			In.ar(in+12),
+			In.ar(in+14),
+			In.ar(in+16)
+		]),
+		Mix.ar ([
+			In.ar(in + 1),
+			In.ar(in + 3),
+			In.ar(in + 5),
+			In.ar(in + 7),
+			In.ar(in+9),
+			In.ar(in+11),
+			In.ar(in+13),
+			In.ar(in + 15)
+		])
+	]
+	// 3/11/10 added eg multiplier
+	*amp*eg)
+	//Out.ar(out, In.ar(in, 16)*amp)
+}).add;
+
+SynthDef(\simpleBell, {|t_trig = 1, freq = 440, amp = 0.2, pan = 0, out=0|
 
 var sig = 	SinOsc.ar(
 		[freq*0.5, freq*3, freq*4.2, freq*5.4, freq*6.8],
 		mul: [1,1,1]
 	);
 	sig = Pan2.ar(sig*EnvGen.kr(Env.perc(0.001, 2.0), gate: t_trig, doneAction: 2), pan);
-		Out.ar(0, sig*amp)
+		Out.ar(out, sig*amp)
 }).add; //play(freq: 100);
 
-SynthDef(\echoBell, {|t_trig = 1, freq = 440, amp = 0.2, pan = 0|
-
-var sig = 	SinOsc.ar(
-		[freq*0.5, freq*3, freq*4.2, freq*5.4, freq*6.8],
-		mul: [1,1,1]
-	);
-	sig = Pan2.ar(sig*EnvGen.kr(Env.perc(0.001, 2.0), gate: t_trig, doneAction: 2), pan);
-	sig = (CombN.ar(sig,
-		2, // max delay time in secs
-		1, // delay time
-		8 // decay time
-
-
-	) * 0.4) + (sig * 0.5);
-		Out.ar(0, sig*amp)
-}).play(freq: 100);
-
-
-// { CombN.ar(Decay.ar(Dust.ar(1,0.5), 0.2, WhiteNoise.ar), 0.2, 0.2, 3) }.play;
-
-
-SynthDef(\undulatingSin3, {|freq=200, t_trig = 1, amp = 0.7|
+SynthDef(\undulatingSin3, {|freq=200, t_trig = 1, amp = 0.7, out=0|
 	var trigger, sig;
-	//trigger = Dust.kr(3/7);
-	//freq = Rand(100, 400); // within a range
-
 	sig = Mix.ar(
 		Array.fill(5,
-
 			// *************************************
 			// a function to fill the array elements
 			{arg counter;
@@ -69,9 +69,8 @@ SynthDef(\undulatingSin3, {|freq=200, t_trig = 1, amp = 0.7|
 					// pan position for the pan2 ugen
 					(Rand(0.0, 2.0) - 1) // pan position (not right)
 				) // end pan
-
 		})
 	)*amp; //overall volume
-	Out.ar(0, sig)
+	Out.ar(out, sig)
 }).add;
 )

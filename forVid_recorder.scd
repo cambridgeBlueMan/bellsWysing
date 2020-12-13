@@ -14,7 +14,7 @@ m = MultiChanRecorder(b);
 
 // each file is named: basePath + _chanNum
 // if basePath is nil then recordings go into the global recordings directory
-m.prepareForRecord("/Users/lea/Documents/mySoundFile");
+m.prepareForRecord("/Users/lea/Documents/mySoundlll");
 
 // mix the busses onto the main outs if desired
 m.monitor;
@@ -30,3 +30,4 @@ m.stop;
 
 
 Synth(\SimpleSine, [\freq, 440, \out, 3])
+Quarks.gui
